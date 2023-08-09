@@ -113,12 +113,13 @@ export class EmployeeListPage implements OnInit {
       },
     });
 
-    // modal.onDidDismiss().then(data => {
-    //   if (data.role === 'apply') {
-    //     const filter = data.data;
-    //     // Perform filtering/search logic here using the 'filter' object
-    //   }
-    // });
+    modal.onDidDismiss().then((result) => {
+      if (result.role === 'search') {
+        const filteredEmployees = result.data; // Get the filtered employees from the modal
+        this.employees = filteredEmployees; // Update the employees list with the filtered results
+        console.log("The employee inside onDidDismiss in list page: ", this.employees);
+      }
+    });
 
     return await modal.present();
   }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { DatabaseService } from '../database.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -12,6 +12,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class SearchModalComponent  implements OnInit {
   @Input() mode: 'insert' | 'update' | 'search' = 'search';
   @Input() employeeData: any;
+
+  @Output() searchButtonClicked = new EventEmitter<any>();
   
   modalTitle: string = '';
   form!: FormGroup;
@@ -102,10 +104,12 @@ export class SearchModalComponent  implements OnInit {
         this.presentErrorAlert(); // Show error alert if update failed
       }
     } else if (this.mode === 'search') {
-      this.formSubmitted = true;
-      if(this.form.valid){
-        this.formSubmitted = false;
-      }
+      
+      const searchCriteria = this.form.value;
+      console.log("Search Form Data: "+this.form.value.employeeName);
+      const filteredEmployees = await this.databaseService.searchEmployees(searchCriteria);
+      this.searchButtonClicked.emit(filteredEmployees); // Emit the filtered employees
+      this.modalController.dismiss(filteredEmployees, 'search');
     }
   }
 
