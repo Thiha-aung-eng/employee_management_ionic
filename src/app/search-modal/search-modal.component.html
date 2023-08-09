@@ -1,0 +1,63 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>{{ modalTitle }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup] ="form">
+  <ion-list>
+    <ion-item>
+      <ion-label position="floating">Employee Name</ion-label>
+      <ion-input formControlName="employeeName" fill="outline" required></ion-input>
+      <div class="validation-error" *ngIf="form.get('employeeName')?.invalid && form.get('employeeName')?.touched || formSubmitted">
+        Employee Name is required
+      </div>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Department Name</ion-label>
+      <ion-input formControlName="departmentName"></ion-input>
+      <div class="validation-error" *ngIf="form.get('departmentName')?.invalid && form.get('departmentName')?.touched || formSubmitted">
+        Department Name is required
+      </div>
+    </ion-item>
+  
+    <ion-item>
+      <ion-label position="floating">Date of birth</ion-label>
+      <ion-input [value]="form.value.dateOfBirth | date: 'dd MMM yyyy'" id="date" ></ion-input>
+      <ion-popover trigger="date">
+        <ng-template>
+          <ion-datetime presentation="date" formControlName="dateOfBirth" locale="en-US"></ion-datetime>
+        </ng-template>
+      </ion-popover>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label position="floating">Position</ion-label>
+      <ion-input formControlName="position"></ion-input>
+      <div class="validation-error" *ngIf="form.get('position')?.invalid && form.get('position')?.touched || formSubmitted">
+        Position is required
+      </div>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">NRC</ion-label>
+      <ion-input formControlName="nrc"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Salary</ion-label>
+      <ion-input type="number" formControlName="salary"></ion-input>
+    </ion-item>
+  </ion-list>
+</form>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button  (click)="submitForm()">Okay</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

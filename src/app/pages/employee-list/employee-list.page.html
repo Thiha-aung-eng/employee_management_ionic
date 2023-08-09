@@ -1,0 +1,83 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="dark">
+    <ion-title>Employee List</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openModal()">
+        <ion-icon name="filter" color="warning"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button color="warning" (click)="openInsertModal()">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ng-container *ngIf="employees.length > 0; else noEmployees">
+    <ngx-datatable
+      class="material"
+      [limit]="15"
+      [rows]="employees"
+      [columns]="columns"
+      [columnMode]="'force'"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      [rowHeight]="50"
+      [scrollbarH]="true"
+    >
+      <ngx-datatable-column name="ID" prop="id" [width]="50">
+        <ng-template ngx-datatable-cell-template let-value="value">
+          <ion-avatar class="avatar"> {{ value }} </ion-avatar>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column
+        name="Employee Name"
+        prop="employeeName"
+      ></ngx-datatable-column>
+
+      <ngx-datatable-column name="Date of Birth" prop="dateOfBirth">
+        <ng-template ngx-datatable-cell-template let-value="value">
+          {{ value | date:'dd/MM/yyyy' }}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column
+        name="Department Name"
+        prop="departmentName"
+      ></ngx-datatable-column>
+
+      <ngx-datatable-column
+        name="position"
+        prop="position"
+      ></ngx-datatable-column>
+
+      <ngx-datatable-column name="Salary" prop="salary">
+        <ng-template ngx-datatable-cell-template let-value="value">
+          {{ value | number:'1.2-2' }}
+        </ng-template>
+
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Actions">
+        <ng-template ngx-datatable-cell-template let-row="row">
+          <ion-button
+            color="primary"
+            size="small"
+            (click)="openUpdateModal(row)"
+          >
+            Edit
+          </ion-button>
+          <ion-button color="danger" size="small" (click)="confirmDelete(row)">
+            Delete
+          </ion-button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </ng-container>
+
+  <ng-template #noEmployees>
+    <p class="flex-center">No employees found.</p>
+  </ng-template>
+</ion-content>

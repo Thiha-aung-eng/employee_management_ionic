@@ -1,0 +1,30 @@
+.container{
+    width: 100%;
+    
+    ion-avatar{
+        background-color: goldenrod;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+    }
+}
+
+ngx-datatable-header {
+    background-color: darkorange;
+    font-weight: bold;
+  }
+
+  /* Add borders to cells */
+ngx-datatable-cell {
+    border: 1px solid #ddd;
+  }
+  
+  /* Add borders to rows */
+  ngx-datatable-row {
+    border-top: 1px solid #ddd;
+  }
+
+  ngx-datatable-column {
+    border-left: 1px solid #ddd;
+  }
+  

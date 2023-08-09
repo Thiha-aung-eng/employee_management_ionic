@@ -1,0 +1,26 @@
+<ion-content [fullscreen]="true">
+ 
+  <div class="flex-center">
+ 
+    <ion-card color="dark">
+      <ion-card-header>
+        <ion-card-title>Please Login</ion-card-title>
+       
+      </ion-card-header> 
+    
+      <ion-card-content> 
+        <ion-input label="Enter Email" label-placement="floating" fill="outline" placeholder="Enter Email" type="Email"></ion-input>
+        <br>
+        <ion-input label="Enter Password" label-placement="floating" fill="outline" placeholder="Enter Password" type="Password"></ion-input>
+       
+        <ion-button  fill="clear" size="full">Forgot Password?</ion-button>
+           
+        <ion-button color ="warning" size="full"  (click)="employeeList()">Sign In</ion-button> 
+        <ion-button color ="secondary" size="full"  (click)="employeeList()">Register</ion-button>
+        <br/>      
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+  
+</ion-content>
