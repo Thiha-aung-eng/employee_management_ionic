@@ -16,6 +16,7 @@ export class SearchModalComponent  implements OnInit {
   @Output() searchButtonClicked = new EventEmitter<any>();
   
   modalTitle: string = '';
+  salary: string = ''; 
   form!: FormGroup;
   formSubmitted = false;
   employees!: any[];
@@ -85,17 +86,27 @@ export class SearchModalComponent  implements OnInit {
   }
 
   async submitForm() {
+
+    const insertEmployee ={
+      employeeName: this.form.value.employeeName,
+    departmentName: this.form.value.departmentName,
+    dateOfBirth: this.form.value.dateOfBirth,
+    position: this.form.value.position,
+    nrc: this.form.value.nrc,
+    salary: Number(this.form.get('salary')?.value.toString().replace(/\D/g, ''))
+    }
    
     if (this.mode === 'insert') {
       this.formSubmitted = true;
       if(this.form.valid){
         this.formSubmitted = false;
-        await this.databaseService.insertEmployee(this.form.value);
+        await this.databaseService.insertEmployee(insertEmployee);
         this.showInsertSuccessAlert('Employee inserted successfully!');
         this.modalController.dismiss({ role: 'insert' });
       }      
     } else if (this.mode === 'update') {
-      const updatedEmployee = { ...this.employeeData, ...this.form.value };
+      const updatedEmployee = { ...this.employeeData, ...insertEmployee };
+      console.log("mode update and employee data: ", JSON.stringify(updatedEmployee));
       const success = await this.databaseService.editEmployee(updatedEmployee);
       if (success) {
         this.showInsertSuccessAlert('Updated Successfully!');

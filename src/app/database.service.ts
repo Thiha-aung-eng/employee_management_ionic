@@ -108,10 +108,11 @@ export class DatabaseService {
       });
   
       await db.executeSql(
-        'UPDATE employees SET employeeName = ?, departmentName = ?, position = ?, nrc = ?, salary = ? WHERE id = ?',
+        'UPDATE employees SET employeeName = ?, departmentName = ?, dateOfBirth = ?, position = ?, nrc = ?, salary = ? WHERE id = ?',
         [
           updatedEmployee.employeeName,
           updatedEmployee.departmentName,
+          updatedEmployee.dateOfBirth,
           updatedEmployee.position,
           updatedEmployee.nrc,
           updatedEmployee.salary,
