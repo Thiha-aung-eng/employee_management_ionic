@@ -29,11 +29,11 @@
       [rowHeight]="50"
       [scrollbarH]="true"
     >
-      <ngx-datatable-column name="ID" prop="id" [width]="50">
-        <ng-template ngx-datatable-cell-template let-value="value">
-          <ion-avatar class="avatar"> {{ value }} </ion-avatar>
-        </ng-template>
-      </ngx-datatable-column>
+    <ngx-datatable-column name="No." prop="id" [width]="50">
+      <ng-template ngx-datatable-cell-template let-row="row">
+        <ion-avatar class="avatar">{{ row.sequentialNumber }}</ion-avatar>
+      </ng-template>
+    </ngx-datatable-column>
 
       <ngx-datatable-column
         name="Employee Name"

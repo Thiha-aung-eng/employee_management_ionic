@@ -22,6 +22,7 @@ export class EmployeeListPage implements OnInit {
   filterInfo: string = '';
 
  async ngOnInit() {
+
   this.columns = [
     { prop: 'id' },
     { prop: 'employeeName' },
@@ -34,17 +35,16 @@ export class EmployeeListPage implements OnInit {
   ];
   await this.databaseService.initializeDatabase();
     this.fetchEmployees();
-    this.route.queryParams.subscribe(params => {
-      if (params['newEmployeeAdded']) {
-        this.fetchEmployees();
-      }
-    });
+    
   }
 
   async fetchEmployees() {
     this.employees = await this.databaseService.getAllEmployees();
-    console.log("Employee List in Fetch Employees:",JSON.stringify(this.employees));
+    this.updateSequentialNumbers(this.employees);
+   
   }
+
+  
 
   async confirmDelete(user: any) {
     const alert = await this.alertController.create({
@@ -72,6 +72,13 @@ export class EmployeeListPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  updateSequentialNumbers(employees: any[]) {
+    employees.forEach((employee, index) => {
+      employee.sequentialNumber = index + 1;
+    });
+
   }
 
   async presentSuccessAlert() {
@@ -122,7 +129,7 @@ export class EmployeeListPage implements OnInit {
         console.log("Filter By: filteredEmployees", JSON.stringify(filteredEmployees));
         const searchCriteria = result.data.formData;
         this.updateFilterInfo(searchCriteria); 
-        console.log("Filter By: Form Data", searchCriteria);
+        this.updateSequentialNumbers(filteredEmployees);
       }
     });
 
@@ -158,6 +165,7 @@ export class EmployeeListPage implements OnInit {
       if(result.data && result.data.role === 'insert'){
         console.log("Insert OK modal Dismiss");
         this.fetchEmployees();
+        
       }
     });
 
@@ -179,6 +187,7 @@ export class EmployeeListPage implements OnInit {
       if(result.data && result.data.role === 'update'){
         console.log("update OK modal dismiss");
         this.fetchEmployees();
+        
       }
     })
     return await modal.present();
