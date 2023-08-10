@@ -92,14 +92,14 @@ export class SearchModalComponent  implements OnInit {
         this.formSubmitted = false;
         await this.databaseService.insertEmployee(this.form.value);
         this.showInsertSuccessAlert('Employee inserted successfully!');
-        this.closeModal();
+        this.modalController.dismiss({ role: 'insert' });
       }      
     } else if (this.mode === 'update') {
       const updatedEmployee = { ...this.employeeData, ...this.form.value };
       const success = await this.databaseService.editEmployee(updatedEmployee);
       if (success) {
         this.showInsertSuccessAlert('Updated Successfully!');
-        this.closeModal();
+        this.modalController.dismiss({ role: 'update' });
       } else {
         this.presentErrorAlert(); // Show error alert if update failed
       }
@@ -109,7 +109,7 @@ export class SearchModalComponent  implements OnInit {
       console.log("Search Form Data: "+this.form.value.employeeName);
       const filteredEmployees = await this.databaseService.searchEmployees(searchCriteria);
       this.searchButtonClicked.emit(filteredEmployees); // Emit the filtered employees
-      this.modalController.dismiss(filteredEmployees, 'search');
+      this.modalController.dismiss({ filteredEmployees: filteredEmployees, formData: this.form.value }, 'search');
     }
   }
 

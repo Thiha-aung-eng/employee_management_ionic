@@ -46,6 +46,7 @@ export class DatabaseService {
           employee.salary,
         ]
       );
+      console.log("insert successful");
     } catch (error) {
       console.error('Error inserting employee', error);
     }
@@ -127,40 +128,40 @@ export class DatabaseService {
 
   async searchEmployees(searchCriteria: any): Promise<any[]> {
     try {
-      let query = 'SELECT * FROM employees WHERE 1=0'; // Start with an empty query
-  
+      let query = 'SELECT * FROM employees WHERE 1=1'; // Start with a basic query
       const queryParams = [];
   
       // Build the query based on search criteria
-      if (searchCriteria.employeeName) {
-        query += ' OR employeeName LIKE ?';
+      if (searchCriteria.employeeName !=="") {
+        query += ' AND employeeName LIKE ?';
         queryParams.push(`%${searchCriteria.employeeName}%`);
       }
-      if (searchCriteria.departmentName) {
-        query += ' OR departmentName = ?';
-        queryParams.push(searchCriteria.departmentName);
+      if (searchCriteria.departmentName !=="") {
+        query += ' AND departmentName LIKE ?';
+        queryParams.push(`${searchCriteria.departmentName}%`);
       }
-      if (searchCriteria.position) {
-        query += ' OR position = ?';
-        queryParams.push(searchCriteria.position);
+      if (searchCriteria.position !=="") {
+        query += ' AND position LIKE ?';
+        queryParams.push(`${searchCriteria.position}%`);
       }
-      if (searchCriteria.nrc) {
-        query += ' OR nrc = ?';
+      if (searchCriteria.nrc !=="") {
+        query += ' AND nrc = ?';
         queryParams.push(searchCriteria.nrc);
       }
-  
+    
       const result = await this.database.executeSql(query, queryParams);
-  
+    
       const employees = [];
       for (let i = 0; i < result.rows.length; i++) {
         employees.push(result.rows.item(i));
       }
-  
+    
       return employees;
     } catch (error) {
       console.error('Error searching employees:', error);
       return [];
     }
   }
+  
   
 }

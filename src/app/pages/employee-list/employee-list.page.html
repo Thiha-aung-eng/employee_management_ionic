@@ -15,6 +15,9 @@
 </ion-header>
 <ion-content>
   <ng-container *ngIf="employees.length > 0; else noEmployees">
+    <div class="div-padding">
+      <h5>Filter By: {{ filterInfo }}</h5>
+    </div>
     <ngx-datatable
       class="material"
       [limit]="15"
@@ -57,7 +60,6 @@
         <ng-template ngx-datatable-cell-template let-value="value">
           {{ value | number:'1.2-2' }}
         </ng-template>
-
       </ngx-datatable-column>
 
       <ngx-datatable-column name="Actions">
@@ -80,5 +82,4 @@
   <ng-template #noEmployees>
     <p class="flex-center">No employees found.</p>
   </ng-template>
-  
 </ion-content>

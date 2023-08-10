@@ -19,6 +19,7 @@ export class EmployeeListPage implements OnInit {
 
   employees: any[] = [];
   columns: any[] = [];
+  filterInfo: string = '';
 
  async ngOnInit() {
   this.columns = [
@@ -42,6 +43,7 @@ export class EmployeeListPage implements OnInit {
 
   async fetchEmployees() {
     this.employees = await this.databaseService.getAllEmployees();
+    console.log("Employee List in Fetch Employees:",JSON.stringify(this.employees));
   }
 
   async confirmDelete(user: any) {
@@ -115,13 +117,32 @@ export class EmployeeListPage implements OnInit {
 
     modal.onDidDismiss().then((result) => {
       if (result.role === 'search') {
-        const filteredEmployees = result.data; // Get the filtered employees from the modal
+        const filteredEmployees = result.data.filteredEmployees; // Get the filtered employees from the modal
         this.employees = filteredEmployees; // Update the employees list with the filtered results
-        console.log("The employee inside onDidDismiss in list page: ", this.employees);
+        console.log("Filter By: filteredEmployees", JSON.stringify(filteredEmployees));
+        const searchCriteria = result.data.formData;
+        this.updateFilterInfo(searchCriteria); 
+        console.log("Filter By: Form Data", searchCriteria);
       }
     });
 
     return await modal.present();
+  }
+
+  updateFilterInfo(searchCriteria: any) {
+    const filterParts = [];
+  
+    if (searchCriteria.employeeName !== "") {
+      filterParts.push(searchCriteria.employeeName);
+    }
+    if (searchCriteria.departmentName !== "") {
+      filterParts.push(searchCriteria.departmentName);
+    }
+    if (searchCriteria.position !== "") {
+      filterParts.push(searchCriteria.position);
+    }
+  
+    this.filterInfo = filterParts.join(', ');
   }
 
   async openInsertModal() {
@@ -132,7 +153,17 @@ export class EmployeeListPage implements OnInit {
         mode: 'insert',
       },
     });
+
+    modal.onDidDismiss().then((result) =>{
+      if(result.data && result.data.role === 'insert'){
+        console.log("Insert OK modal Dismiss");
+        this.fetchEmployees();
+      }
+    });
+
     return await modal.present();
+
+
   }
 
   async openUpdateModal(employee: any) {
@@ -143,6 +174,13 @@ export class EmployeeListPage implements OnInit {
         employeeData: employee
       },
     });
+
+    modal.onDidDismiss().then((result) =>{
+      if(result.data && result.data.role === 'update'){
+        console.log("update OK modal dismiss");
+        this.fetchEmployees();
+      }
+    })
     return await modal.present();
   }
 

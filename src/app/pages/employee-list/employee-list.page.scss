@@ -1,14 +1,3 @@
-.container{
-    width: 100%;
-    
-    ion-avatar{
-        background-color: goldenrod;
-        justify-content: center;
-        align-items: center;
-        display: flex;
-    }
-}
-
 ngx-datatable-header {
     background-color: darkorange;
     font-weight: bold;
@@ -28,3 +17,6 @@ ngx-datatable-cell {
     border-left: 1px solid #ddd;
   }
   
+  .div-padding{
+    padding-left: 10px;
+  }
